@@ -1,0 +1,110 @@
+/* navbar.css */
+
+/* Theme Variables */
+:root {
+  --primary-color: #000; /* Black Theme */
+  --secondary-color: #fff;
+  --primary-bg-color: #fff;
+  --secondary-bg-color: #000;
+}
+
+/* Light Theme */
+.light-theme {
+  --primary-color: #000;
+  --secondary-color: #fff;
+  --primary-bg-color: #fff;
+  --secondary-bg-color: #000;
+}
+
+/* Dark Theme */
+.dark-theme {
+  --primary-color: #fff;
+  --secondary-color: #000;
+  --primary-bg-color: #000;
+  --secondary-bg-color: #fff;
+}
+
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem;
+  background-color: var(--primary-bg-color);
+  border-bottom: 1px solid var(--secondary-color);
+  color: var(--primary-color);
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+}
+
+.appName {
+  font-size: 1.5rem;
+  font-weight: bold;
+  margin-left: 1rem;
+  color: var(--primary-color);
+}
+
+.desktop-menu {
+  display: flex;
+  justify-content: center;
+  flex-grow: 1;
+}
+
+.menu {
+  display: flex;
+  justify-content: center;
+  background-color: var(--primary-bg-color);
+}
+
+.menu .ant-menu-item {
+  color: var(--primary-color);
+}
+
+.menu .ant-menu-item:hover {
+  background-color: var(--secondary-bg-color);
+  color: var(--secondary-color);
+}
+
+.drawer-menu .ant-menu-item {
+  /* padding: 1rem 2rem; */
+}
+
+.icons {
+  display: flex;
+  align-items: center;
+}
+
+.icons a {
+  color: var(--primary-color);
+  margin-right: 1rem;
+}
+
+.iconSvg {
+  font-size: 1.5rem;
+  margin-left: 1rem;
+  color: var(--primary-color);
+}
+
+.toggleButton {
+  display: none;
+}
+/* @media(max-width: 1024px){
+  .desktop-menu {
+    display: none;
+  }
+
+  .toggleButton {
+    display: block;
+  }
+} */
+@media (max-width: 768px) {
+  .desktop-menu {
+    display: none;
+  }
+
+  .toggleButton {
+    display: block;
+  }
+}
