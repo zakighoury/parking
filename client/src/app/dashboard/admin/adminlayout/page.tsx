@@ -7,9 +7,11 @@ import { Layout, Menu } from 'antd';
 import {
   AppstoreOutlined,
   PlusOutlined,
+  CalendarOutlined, // Add icon for Reservations
 } from '@ant-design/icons';
 import ShowBuildings from '../showbuilt/page'; // Import your components
 import AddBuilding from '../addbuilt/page'; // Import your components
+import ReservePage from '../reserve/page'; // Import ReservePage component
 
 const { Header, Content, Sider } = Layout;
 
@@ -26,6 +28,8 @@ const AdminLayout: React.FC = () => {
         return <ShowBuildings />;
       case '/dashboard/admin/addbuilt':
         return <AddBuilding />;
+      case '/dashboard/admin/reserve':
+        return <ReservePage />;
       default:
         return <ShowBuildings />;
     }
@@ -50,6 +54,9 @@ const AdminLayout: React.FC = () => {
             </Menu.Item>
             <Menu.Item key="/dashboard/admin/addbuilt" icon={<PlusOutlined />}>
               Add Building
+            </Menu.Item>
+            <Menu.Item key="/dashboard/admin/reserve" icon={<CalendarOutlined />}>
+              Reservations
             </Menu.Item>
           </Menu>
         </Sider>

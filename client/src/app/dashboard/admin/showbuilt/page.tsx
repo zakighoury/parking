@@ -1,4 +1,3 @@
-"use client";
 import React, { useEffect, useState } from 'react';
 import { Collapse, Modal, Button, Input, Form, Row, Col, Typography, Spin, message } from 'antd';
 import axios from 'axios';
@@ -39,19 +38,36 @@ const BuildingManagementPage: React.FC = () => {
   const [currentSlot, setCurrentSlot] = useState<Slot | null>(null);
   const [form] = Form.useForm();
 
+  const fetchBuildings = async () => {
+    try {
+      const token = Cookies.get("token");
+      const role = Cookies.get("role");
+      const response = await axios.get('http://localhost:5000/admin/api/buildings/all', {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          'X-User-Role': role || ""
+        }
+      });
+      setBuildings(response.data);
+    } catch (error) {
+      console.error('Error fetching buildings:', error);
+      message.error('Failed to fetch buildings.');
+    } finally {
+      setLoading(false);
+    }
+  };
+
   useEffect(() => {
     fetchBuildings();
   }, []);
 
-  const fetchBuildings = async () => {
-    try {
-      const response = await axios.get('http://localhost:5000/api/buildings');
-      setBuildings(response.data);
-      setLoading(false);
-    } catch (error) {
-      console.error('Error fetching buildings:', error);
-      setLoading(false);
-    }
+  const getAuthHeaders = () => {
+    const token = Cookies.get("token");
+    const role = Cookies.get("role");
+    return {
+      Authorization: `Bearer ${token}`,
+      'X-User-Role': role || ""
+    };
   };
 
   const showBuildingModal = (building: Building) => {
@@ -66,11 +82,7 @@ const BuildingManagementPage: React.FC = () => {
     setIsFloorModalVisible(true);
     form.setFieldsValue(floor);
   };
-  const userRole = Cookies.get("role");
-    if (userRole !== "admin") {
-      window.location.href = "/home/403";
-      return null; // Prevent rendering of the form
-    }
+
   const showSlotModal = (building: Building, floor: Floor, slot: Slot) => {
     setCurrentBuilding(building);
     setCurrentFloor(floor);
@@ -89,8 +101,10 @@ const BuildingManagementPage: React.FC = () => {
   const handleBuildingOk = async () => {
     try {
       const values = form.getFieldsValue();
-      await axios.put(`http://localhost:5000/api/buildings/${currentBuilding?._id}`, values);
-      fetchBuildings();
+      await axios.put(`http://localhost:5000/admin/api/buildings/${currentBuilding?._id}`, values, {
+        headers: getAuthHeaders(),
+      });
+      fetchBuildings(); // Ensure fetchBuildings is in scope
       message.success('Building updated successfully!');
     } catch (error) {
       console.error('Error updating building:', error);
@@ -102,8 +116,10 @@ const BuildingManagementPage: React.FC = () => {
   const handleFloorOk = async () => {
     try {
       const values = form.getFieldsValue();
-      await axios.put(`http://localhost:5000/api/buildings/${currentBuilding?._id}/floors/${currentFloor?.number}`, values);
-      fetchBuildings();
+      await axios.put(`http://localhost:5000/admin/api/buildings/${currentBuilding?._id}/floors/${currentFloor?.number}`, values, {
+        headers: getAuthHeaders(),
+      });
+      fetchBuildings(); // Ensure fetchBuildings is in scope
       message.success('Floor updated successfully!');
     } catch (error) {
       console.error('Error updating floor:', error);
@@ -115,8 +131,10 @@ const BuildingManagementPage: React.FC = () => {
   const handleSlotOk = async () => {
     try {
       const values = form.getFieldsValue();
-      await axios.put(`http://localhost:5000/api/buildings/${currentBuilding?._id}/floors/${currentFloor?.number}/slots/${currentSlot?.number}`, values);
-      fetchBuildings();
+      await axios.put(`http://localhost:5000/admin/api/buildings/${currentBuilding?._id}/floors/${currentFloor?.number}/slots/${currentSlot?.number}`, values, {
+        headers: getAuthHeaders(),
+      });
+      fetchBuildings(); // Ensure fetchBuildings is in scope
       message.success('Slot updated successfully!');
     } catch (error) {
       console.error('Error updating slot:', error);
@@ -127,8 +145,10 @@ const BuildingManagementPage: React.FC = () => {
 
   const handleDeleteBuilding = async (buildingId: string) => {
     try {
-      await axios.delete(`http://localhost:5000/api/buildings/${buildingId}`);
-      fetchBuildings();
+      await axios.delete(`http://localhost:5000/admin/api/buildings/${buildingId}`, {
+        headers: getAuthHeaders(),
+      });
+      fetchBuildings(); // Ensure fetchBuildings is in scope
       message.success('Building deleted successfully!');
     } catch (error) {
       console.error('Error deleting building:', error);
@@ -138,8 +158,10 @@ const BuildingManagementPage: React.FC = () => {
 
   const handleDeleteFloor = async (buildingId: string, floorNumber: number) => {
     try {
-      await axios.delete(`http://localhost:5000/api/buildings/${buildingId}/floors/${floorNumber}`);
-      fetchBuildings();
+      await axios.delete(`http://localhost:5000/admin/api/buildings/${buildingId}/floors/${floorNumber}`, {
+        headers: getAuthHeaders(),
+      });
+      fetchBuildings(); // Ensure fetchBuildings is in scope
       message.success('Floor deleted successfully!');
     } catch (error) {
       console.error('Error deleting floor:', error);
@@ -149,14 +171,22 @@ const BuildingManagementPage: React.FC = () => {
 
   const handleDeleteSlot = async (buildingId: string, floorNumber: number, slotNumber: number) => {
     try {
-      await axios.delete(`http://localhost:5000/api/buildings/${buildingId}/floors/${floorNumber}/slots/${slotNumber}`);
-      fetchBuildings();
+      await axios.delete(`http://localhost:5000/admin/api/buildings/${buildingId}/floors/${floorNumber}/slots/${slotNumber}`, {
+        headers: getAuthHeaders(),
+      });
+      fetchBuildings(); // Ensure fetchBuildings is in scope
       message.success('Slot deleted successfully!');
     } catch (error) {
       console.error('Error deleting slot:', error);
       message.error('Failed to delete slot.');
     }
   };
+
+  const userRole = Cookies.get("role");
+  if (userRole !== "admin") {
+    window.location.href = "/home/403";
+    return null;
+  }
 
   if (loading) {
     return (
@@ -217,9 +247,20 @@ const BuildingManagementPage: React.FC = () => {
           <Form.Item name="address" label="Address" rules={[{ required: true }]}>
             <Input />
           </Form.Item>
-          <Form.Item name="description" label="Description" rules={[{ required: true }]}>
+          <Form.Item name="ImgUrl" label="Image URL">
+            <Input />
+          </Form.Item>
+          <Form.Item name="description" label="Description">
             <Input.TextArea />
           </Form.Item>
+          <Form.Item name="isBought" label="Is Bought" valuePropName="checked">
+            <Input type="checkbox" />
+          </Form.Item>
+          {form.getFieldValue('isBought') && (
+            <Form.Item name="buyerName" label="Buyer Name">
+              <Input />
+            </Form.Item>
+          )}
         </Form>
       </Modal>
 
@@ -234,7 +275,6 @@ const BuildingManagementPage: React.FC = () => {
           <Form.Item name="number" label="Floor Number" rules={[{ required: true }]}>
             <Input type="number" />
           </Form.Item>
-          {/* Add more fields as needed */}
         </Form>
       </Modal>
 

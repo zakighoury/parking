@@ -23,6 +23,7 @@ io.on('connection', (socket) => {
 });
 module.exports = { io };
 const buildingdetailRoutes = require("./routes/buildingdetailsRoutes.js")
+const adminbuildingsRouter = require('./routes/adminBuilding.js');
 const buildingroutes = require("./routes/buidlingroutes");
 const authRoutes = require("./routes/authRoutes");
 
@@ -37,6 +38,7 @@ useRoutes(app);
 app.use("/api", buildingroutes);
 app.use("/api", authRoutes);
 app.use("/api/building", buildingdetailRoutes);
+app.use('/admin/api/buildings', adminbuildingsRouter);
 // Connecting to MongoDB
 const connectDB = require("./utils/db");
 connectDB().then(() => {

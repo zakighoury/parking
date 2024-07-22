@@ -4,7 +4,7 @@ const Building = require("../models/Building");
 const User = require("../models/User")
 const cloudinary = require("cloudinary").v2;
 const Booking = require("../models/Booking");
-const { requireSignin } = require('../middlewares/authmiddleware');
+const { requireSignin, isAdmin } = require('../middlewares/authmiddleware');
 const { v4: uuidv4 } = require("uuid");
 const multer = require("multer");
 cloudinary.config({
@@ -54,13 +54,13 @@ router.post("/buildings", upload.single("ImgUrl"), async (req, res) => {
 
 
 // GET /api/buildings - Get all buildings
-router.get("/buildings", requireSignin, async (req, res) => {
+router.get("/buildings",isAdmin, requireSignin, async (req, res) => {
   try {
     const role = getRoleFromHeaders(req);
     console.log(role, "role");
     let buildings;
 
-    if (role === 'provider') {
+    if (role === 'provider' || role === 'admin') {
       buildings = await Building.find();
     } else if (role === 'customer') {
       // Customer sees only buildings that have not been bought
@@ -74,6 +74,7 @@ router.get("/buildings", requireSignin, async (req, res) => {
     res.status(500).json({ message: err.message });
   }
 });
+
 
 
 router.get("/buildings/:id", async (req, res) => {
