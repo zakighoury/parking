@@ -1,0 +1,70 @@
+/* BuildingDetails.css */
+
+/* General Styles */
+.buildingDetailsCard {
+  border-radius: 8px;
+  background-color: #D6FE7B;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  padding: 24px;
+  position: relative;
+}
+
+.buildingImage {
+  width: 100%;
+  height: 300px;
+  object-fit: cover;
+  border-radius: 8px;
+}
+
+.buildingTitle {
+  margin-bottom: 16px;
+}
+
+.icon {
+  margin-right: 8px;
+  color: #1890ff; /* Ant Design primary color */
+}
+
+.loadingContainer, .errorContainer {
+  text-align: center;
+  margin: 24px;
+}
+
+.slotTag {
+  cursor: pointer;
+  margin-right: 8px;
+}
+
+.slotTagReserved {
+  opacity: 0.6;
+}
+
+.ant-modal {
+  border-radius: 8px;
+}
+
+.ant-modal-header {
+  border-bottom: 1px solid #e8e8e8;
+}
+
+.ant-btn-primary {
+  background-color: #1890ff;
+  border-color: #1890ff;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .buildingImage {
+    height: 200px;
+  }
+}
+
+@media (max-width: 576px) {
+  .buildingDetailsCard {
+    padding: 16px;
+  }
+
+  .buildingTitle {
+    font-size: 20px;
+  }
+}

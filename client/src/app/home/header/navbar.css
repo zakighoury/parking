@@ -1,0 +1,166 @@
+/* navbar.css */
+
+/* Theme Variables */
+:root {
+  --primary-color: #000; /* Black Theme */
+  --secondary-color: #fff;
+  --primary-bg-color: #fff;
+  --secondary-bg-color: #000;
+}
+
+/* Light Theme */
+.light-theme {
+  --primary-color: #000;
+  --secondary-color: #fff;
+  --primary-bg-color: #fff;
+  --secondary-bg-color: #000;
+}
+
+/* Dark Theme */
+.dark-theme {
+  --primary-color: #fff;
+  --secondary-color: #000;
+  --primary-bg-color: #000;
+  --secondary-bg-color: #fff;
+}
+
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem;
+  border-bottom: 1px solid var(--secondary-color);
+  color: var(--primary-color);
+  /* background: linear-gradient(135deg, lawngreen, lightgreen); */
+  transition: background 0.3s ease, color 0.3s ease;
+}
+.navbar ,.menu{
+  background: linear-gradient(135deg, lawngreen, lightgreen);
+
+}
+.logo {
+  display: flex;
+  align-items: center;
+}
+
+.appName {
+  font-size: 1.5rem;
+  font-weight: bold;
+  margin-left: 1rem;
+  color: white;
+}
+
+.desktop-menu {
+  display: flex;
+  justify-content: center;
+  flex-grow: 1;
+}
+
+.menu {
+  display: flex;
+  justify-content: center;
+  font-weight: 500;
+
+  /* font-size: 1.2rem; */
+
+}
+
+.menu .ant-menu-item {
+  color: white;
+}
+
+.menu .ant-menu-item:hover {
+  background-color: #696868;
+  color: white;
+}
+
+.drawer-menu .ant-menu-item {
+  color: #333; /* Darker text for drawer */
+}
+
+.drawer-menu {
+  background: rgba(0, 0, 0, 0.1); /* Light hover effect for drawer */
+}
+
+.icons {
+  display: flex;
+  align-items: center;
+}
+
+.icons a {
+  color: white;
+  margin-right: 1rem;
+}
+
+.iconSvg {
+  font-size: 1.5rem;
+  margin-left: 1rem;
+  color: white;
+}
+
+.toggleButton {
+  display: none;
+}
+.drawer-menu .ant-menu-item {
+  color: white;
+}
+.ham{
+  /* background-color:lawngreen; */
+}
+/* .anticon svg {
+  color: lawngreen;
+  display: inline-block;
+} */
+body > div:nth-child(12) > div > div.ant-drawer-content-wrapper > div > div.ant-drawer-body > ul{
+  background-color: lawngreen;
+}
+:where(.css-dev-only-do-not-override-1uq9j6g).ant-drawer .ant-drawer-body {
+  flex: 1;
+  background-color: lawngreen;
+  min-width: 0;
+  min-height: 0;
+  padding: 24px;
+  overflow: auto;
+}
+:where(.css-dev-only-do-not-override-1uq9j6g).ant-drawer .ant-drawer-header {
+  display: flex;
+  flex: 0;
+  color: white;
+  background-color: rgb(128, 255, 0);
+  align-items: center;
+  padding: 16px 24px;
+  font-size: 16px;
+  line-height: 1.5;
+  border-bottom: 1px solid rgba(5, 5, 5, 0.06);
+}/* Media Queries */
+@media (max-width: 1024px) {
+  .desktop-menu {
+    display: none;
+  }
+
+  .toggleButton {
+    display: block;
+    background-color:#8DF079;
+    color: white;
+    border: none;
+
+  }
+  .toggleButton:hover {
+    display: block;
+    background-color:#8DF079;
+    color: white;
+  }
+}
+
+@media (max-width: 768px) {
+  .desktop-menu {
+    display: none;
+  }
+
+  .toggleButton {
+    display: block;
+    background-color:#8DF079;
+    color: white;
+  }
+
+}
